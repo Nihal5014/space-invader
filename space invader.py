@@ -1,6 +1,5 @@
 import pygame
-
-
+pygame.init()
 HEIGHT = 800
 WIDTH = 1000
 TITLE = "Space invader"
@@ -30,16 +29,26 @@ spaceship_r = spaceship(img2,750,250)
 sprites = pygame.sprite.Group()
 sprites.add(spaceship_y)
 sprites.add(spaceship_r)
+health_r = 100
+health_y = 100
 
 red_bullets = []
 yellow_bullets = []
 def handle_bullets():
+    global health_y
+    global health_r
     for bullet in yellow_bullets:
         pygame.draw.rect(screen,"yellow",bullet)
+        bullet.x = bullet.x+0.75
+        if bullet.colliderect(spaceship_r.rect):
+            health_r = health_r - 10
+            yellow_bullets.remove(bullet)
     for bullet in red_bullets:
         pygame.draw.rect(screen,"red",bullet) 
-
-
+        bullet.x = bullet.x-0.75
+        if bullet.colliderect(spaceship_y.rect):
+            health_y = health_y - 10
+            red_bullets.remove(bullet)
 while run == True:
     screen.blit(bg,(0,0))
     sprites.draw(screen)
@@ -55,8 +64,21 @@ while run == True:
             if event.key ==pygame.K_m:
                 bullet2 =  pygame.Rect(spaceship_r.rect.x,spaceship_r.rect.y,15,5)
                 red_bullets.append(bullet2)
+    
+    font = pygame.font.SysFont('arial',30)
+    text = font.render("health"+str(health_r),True,'white')
+    screen.blit(text,[800,25])
+    
+    font =  pygame.font.SysFont ('arial',30)
+    text = font.render("health"+str(health_y),True,'white')
+    screen.blit(text,[100,25])
     handle_bullets()
 
+    
+    
+    
+    
+    
     key_press = pygame.key.get_pressed()
     if key_press[pygame.K_UP]:
         spaceship_r.rect.y = spaceship_r.rect.y-1
