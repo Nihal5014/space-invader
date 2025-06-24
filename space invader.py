@@ -74,9 +74,21 @@ while run == True:
     screen.blit(text,[100,25])
     handle_bullets()
 
+    if health_r == 0:
+        font = pygame.font.SysFont('arial',40)
+        text = font.render("GAME OVER , Yellow is the winner",True,'white')
+        screen.blit(text,(400,525))
+        pygame.display.update()
+        pygame.time.delay(5000)
+        run = False
     
-    
-    
+    if health_y == 0:
+        font = pygame.font.SysFont('arial',40)
+        text = font.render("GAME OVER , Red is the winner",True,'white')
+        screen.blit(text,(400,525))
+        pygame.display.update()
+        pygame.time.delay(5000)
+        run = False
     
     
     key_press = pygame.key.get_pressed()
